@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useSession, useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 
 import { PlusIcon } from '@/components/custom/icons';
@@ -20,9 +20,18 @@ import {
 import { BetterTooltip } from '@/components/ui/tooltip';
 import { ClerkUser } from '@/types';
 
-export function AppSidebar({ user }: { user: ClerkUser | undefined }) {
+export function AppSidebar() {
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
+  const { user } = useUser();
+  const { session } = useSession();
+  
+  if (!user || !session) return null;
+
+  const userProp: ClerkUser = {
+    id: user?.id,
+    email: user?.emailAddresses[0].emailAddress,
+  };
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">
@@ -59,14 +68,14 @@ export function AppSidebar({ user }: { user: ClerkUser | undefined }) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarHistory user={user} />
+          <SidebarHistory user={userProp} />
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="gap-0">
         {user && (
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarUserNav user={user} />
+              <SidebarUserNav user={userProp} />
             </SidebarGroupContent>
           </SidebarGroup>
         )}
