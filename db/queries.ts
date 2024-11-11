@@ -29,7 +29,7 @@ export async function getUser(email: string): Promise<Array<User>> {
 }
 
 export async function createUser(email: string, userId: string) {
-
+  console.log('createUser', email, userId);
   try {
     return await db.insert(user).values({ email, id: userId });
   } catch (error) {
