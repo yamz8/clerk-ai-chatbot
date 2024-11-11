@@ -12,7 +12,7 @@ import {
 } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('User', {
-  id: uuid('id').primaryKey().notNull(),
+  id: varchar('id').primaryKey().notNull(),
   email: varchar('email', { length: 64 }).notNull(),  
 });
 
@@ -22,7 +22,7 @@ export const chat = pgTable('Chat', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
   createdAt: timestamp('createdAt').notNull(),
   title: text('title').notNull(),
-  userId: uuid('userId')
+  userId: varchar('userId')
     .notNull()
     .references(() => user.id),
 });
@@ -68,7 +68,7 @@ export const document = pgTable(
     createdAt: timestamp('createdAt').notNull(),
     title: text('title').notNull(),
     content: text('content'),
-    userId: uuid('userId')
+    userId: varchar('userId')
       .notNull()
       .references(() => user.id),
   },
@@ -91,7 +91,7 @@ export const suggestion = pgTable(
     suggestedText: text('suggestedText').notNull(),
     description: text('description'),
     isResolved: boolean('isResolved').notNull().default(false),
-    userId: uuid('userId')
+    userId: varchar('userId')
       .notNull()
       .references(() => user.id),
     createdAt: timestamp('createdAt').notNull(),
