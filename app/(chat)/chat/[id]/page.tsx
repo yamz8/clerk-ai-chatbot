@@ -1,9 +1,9 @@
-import { CoreMessage } from 'ai';
+import { auth } from '@clerk/nextjs/server';
 import { cookies } from 'next/headers';
 import { notFound } from 'next/navigation';
 
+
 import { DEFAULT_MODEL_NAME, models } from '@/ai/models';
-import { auth } from '@/app/(auth)/auth';
 import { Chat as PreviewChat } from '@/components/custom/chat';
 import { getChatById, getMessagesByChatId } from '@/db/queries';
 import { convertToUIMessages } from '@/lib/utils';
@@ -17,13 +17,13 @@ export default async function Page(props: { params: Promise<any> }) {
     notFound();
   }
 
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session || !session.user) {
+  if (!userId) {
     return notFound();
   }
 
-  if (session.user.id !== chat.userId) {
+  if (userId !== chat.userId) {
     return notFound();
   }
 

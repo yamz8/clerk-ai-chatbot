@@ -1,4 +1,5 @@
-import { auth } from '@/app/(auth)/auth';
+import { auth } from '@clerk/nextjs/server';
+
 import { getVotesByChatId, voteMessage } from '@/db/queries';
 
 export async function GET(request: Request) {
@@ -9,9 +10,9 @@ export async function GET(request: Request) {
     return new Response('chatId is required', { status: 400 });
   }
 
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session || !session.user || !session.user.email) {
+  if (!userId) {
     return new Response('Unauthorized', { status: 401 });
   }
 
@@ -32,9 +33,9 @@ export async function PATCH(request: Request) {
     return new Response('messageId and type are required', { status: 400 });
   }
 
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session || !session.user || !session.user.email) {
+  if (!userId) {
     return new Response('Unauthorized', { status: 401 });
   }
 

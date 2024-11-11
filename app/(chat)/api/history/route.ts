@@ -1,13 +1,14 @@
-import { auth } from "@/app/(auth)/auth";
-import { getChatsByUserId } from "@/db/queries";
+import { auth } from '@clerk/nextjs/server';
+
+import { getChatsByUserId } from '@/db/queries';
 
 export async function GET() {
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session || !session.user) {
+  if (!userId) {
     return Response.json("Unauthorized!", { status: 401 });
   }
 
-  const chats = await getChatsByUserId({ id: session.user.id! });
+  const chats = await getChatsByUserId({ id: userId });
   return Response.json(chats);
 }
