@@ -42,7 +42,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider dynamic>
     <html
       lang="en"
       // `next-themes` injects an extra classname to the body element to avoid
