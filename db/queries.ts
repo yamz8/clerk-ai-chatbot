@@ -27,7 +27,11 @@ export async function getUser(email: string): Promise<Array<User>> {
 export async function createUser(email: string, userId: string) {
   console.log('createUser', email, userId);
   try {
-    const result = await db.insert(user).values({ email, id: userId });
+    console.log('createUser trying to insert');
+    const result = await db
+      .insert(user)
+      .values({ email, id: userId })
+      .returning();
     console.log('createUser result', result);
     return result;
   } catch (error) {
