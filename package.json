@@ -8,6 +8,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx db/migrate",
     "db:drop": "drizzle-kit drop",
+    "db:push": "drizzle-kit push",
+    "db:pull": "drizzle-kit pull",
     "start": "next start",
     "lint": "next lint"
   },
