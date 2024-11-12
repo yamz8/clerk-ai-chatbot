@@ -1,9 +1,8 @@
 'server-only';
 
 import { and, asc, desc, eq, gt } from 'drizzle-orm';
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
 
+import { db } from './db';
 import {
   user,
   chat,
@@ -15,9 +14,6 @@ import {
   message,
   vote,
 } from './schema';
-
-let client = postgres(`${process.env.DATABASE_URL!}?sslmode=require`);
-let db = drizzle(client);
 
 export async function getUser(email: string): Promise<Array<User>> {
   try {
